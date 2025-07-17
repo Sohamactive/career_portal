@@ -29,8 +29,15 @@ INSTALLED_APPS = [
     'internships',
     'applications',
     'core',
+    # 'tailwind',
+    # 'theme',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.github',
 ]
-
+# TAILWIND_APP_NAME = 'theme
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -39,6 +46,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.contrib.auth.backends.ModelBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'career_portal.urls'
@@ -131,3 +141,15 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = ''  # your gmail
 EMAIL_HOST_PASSWORD = ''  # app password
+
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Or 'optional'
+# ACCOUNT_EMAIL_REQUIRED = True
+# LOGIN_REDIRECT_URL = '/internships/' # Where to send users after login
+# ACCOUNT_LOGOUT_ON_GET = True
+
+
+
+AUTH_USER_MODEL = 'users.User'  # Use the custom user model

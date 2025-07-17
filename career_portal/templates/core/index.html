@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers at Unisoft Corner</title>
+    <style>
+        /* A simple CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Define brand colors and fonts */
+        :root {
+            --primary-color: #0d6efd; /* A professional blue */
+            --primary-hover: #0b5ed7;
+            --secondary-color: #212529; /* Dark text for high contrast */
+            --muted-color: #6c757d;   /* Lighter gray for subtext */
+            --bg-color: #ffffff;      /* Clean white background */
+            --light-bg: #f8f9fa;      /* A very light gray for sections */
+            --border-color: #dee2e6;
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Header / Navbar --- */
+        .header {
+            background-color: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links a {
+            color: var(--muted-color);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-button {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-hover);
+            color: var(--bg-color); /* Ensure text color remains white on hover */
+        }
+
+
+        /* --- Hero Section --- */
+        .hero {
+            text-align: center;
+            padding: 6rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--muted-color);
+            max-width: 700px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        .hero .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 0.9rem 2.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero .cta-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* --- Features Section --- */
+        .benefits {
+            padding: 5rem 0;
+            background-color: var(--light-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--muted-color);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background-color: var(--bg-color);
+            padding: 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card p {
+            color: var(--muted-color);
+            font-size: 0.95rem;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            color: var(--muted-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="/" class="logo">Unisoft Corner <span>Careers</span></a>
+            <nav class="nav-links">
+                <a href="/login">Applicant Login</a>
+                <a href="/signup" class="nav-button">Create Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Shape the Future of Software</h1>
+                <p>
+                    Join Unisoft Corner and contribute to innovative projects that make a difference. We are looking for passionate and driven students to join our team and grow with us.
+                </p>
+                <a href="#open-roles" class="cta-button">View Open Roles</a>
+            </div>
+        </section>
+
+        <section class="benefits">
+            <div class="container">
+                <h2 class="section-title">Why Intern at Unisoft Corner?</h2>
+                <p class="section-subtitle">We invest in our interns' growth and success.</p>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3>Real-World Impact</h3>
+                        <p>Work on live projects that are used by real clients. Your code and ideas will have a direct impact on our business and our customers' success.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Mentorship & Learning</h3>
+                        <p>Receive one-on-one guidance from experienced engineers and leaders. We're committed to your professional development through workshops and hands-on training.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>Collaborative Culture</h3>
+                        <p>Become part of a supportive and inclusive team. We value open communication and teamwork to solve complex challenges together.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Unisoft Corner. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
