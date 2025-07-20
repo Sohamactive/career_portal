@@ -1,0 +1,21 @@
+{% comment %}
+This is our reusable navigation bar.
+{% endcomment %}
+
+<header class="header">
+    <div class="container navbar">
+        <a href="{% url 'core:home' %}" class="logo">Unisoft Corner <span>Careers</span></a>
+        <nav class="nav-links">
+            {% if user.is_authenticated %}
+                <!-- Links for Logged-In Users -->
+                <a href="#">Internships</a>
+                <a href="#">Dashboard</a>
+                <a href="{% url 'users:logout' %}">Logout</a>
+            {% else %}
+                <!-- Links for Guests (Not Logged In) -->
+                <a href="{% url 'users:login' %}">Applicant Login</a>
+                <a href="{% url 'users:signup_choice' %}" class="nav-button">Create Profile</a>
+            {% endif %}
+        </nav>
+    </div>
+</header>

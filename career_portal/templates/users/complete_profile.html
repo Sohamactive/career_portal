@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #212529;
+            --muted-color: #6c757d;
+            --bg-color: #f8f9fa;
+            --white-color: #ffffff;
+            --border-color: #dee2e6;
+            --danger-color: #dc3545;
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background-color: var(--white-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            color: var(--muted-color);
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label .optional {
+            font-weight: 400;
+            color: var(--muted-color);
+            font-size: 0.85rem;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+        
+        /* Styles for the dynamic certificate section */
+        .certificate-entry {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        .certificate-entry .form-group {
+            flex-grow: 1;
+            margin-bottom: 0;
+        }
+        .remove-btn {
+            height: 45px;
+            padding: 0 1rem;
+            border: 1px solid var(--danger-color);
+            background-color: transparent;
+            color: var(--danger-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .remove-btn:hover {
+            background-color: var(--danger-color);
+            color: var(--white-color);
+        }
+        .add-btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .add-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 0.9rem 1rem;
+            margin-top: 2.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0b5ed7;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="page-title">Complete Your Profile</h1>
+        <p class="page-subtitle">This information will be used for your internship applications. Fields marked with * are required.</p>
+        
+        <form action="{% url 'users:complete_profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h2 class="section-title">Basic Information</h2>
+
+            <div class="form-group">
+                <label for="{{ form.full_name.id_for_label }}" class="form-label">Full Name *</label>
+                {{ form.full_name }}
+                {% for error in form.full_name.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture <span class="optional">(Optional)</span></label>
+                {{ form.profile_picture }}
+                {% for error in form.profile_picture.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.bio.id_for_label }}" class="form-label">Bio <span class="optional">(Optional)</span></label>
+                {{ form.bio }}
+                {% for error in form.bio.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <h2 class="section-title">Professional Details</h2>
+
+            <div class="form-group">
+                <label for="{{ form.resume.id_for_label }}" class="form-label">Upload Resume *</label>
+                {{ form.resume }}
+                {% for error in form.resume.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.linkedin_url.id_for_label }}" class="form-label">LinkedIn Profile URL *</label>
+                {{ form.linkedin_url }}
+                {% for error in form.linkedin_url.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.github_url.id_for_label }}" class="form-label">GitHub Profile URL <span class="optional">(Optional)</span></label>
+                {{ form.github_url }}
+                {% for error in form.github_url.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <h2 class="section-title">Certificates <span class="form-label optional">(Optional)</span></h2>
+            <div id="certificates-container">
+                </div>
+            <button type="button" class="add-btn" id="add-certificate-btn">+ Add Certificate</button>
+            
+            <button type="submit" class="submit-btn">Save Profile & Continue</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('certificates-container');
+            const addButton = document.getElementById('add-certificate-btn');
+
+            addButton.addEventListener('click', function() {
+                const newEntry = document.createElement('div');
+                newEntry.classList.add('certificate-entry');
+                
+                // Use different names for each input to handle them in the backend
+                newEntry.innerHTML = `
+                    <div class="form-group">
+                        <label class="form-label">Certificate Title</label>
+                        <input type="text" name="cert_title" class="form-control" placeholder="e.g., Python for Everybody">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Certificate File</label>
+                        <input type="file" name="cert_file" class="form-control" accept=".pdf,.png,.jpg,.jpeg" required>
+                    </div>
+                    <button type="button" class="remove-btn">Remove</button>
+                `;
+                
+                container.appendChild(newEntry);
+
+                newEntry.querySelector('.remove-btn').addEventListener('click', function() {
+                    newEntry.remove();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

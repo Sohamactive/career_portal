@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Step 1</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #212529;
+            --muted-color: #6c757d;
+            --bg-color: #f8f9fa;
+            --white-color: #ffffff;
+            --border-color: #dee2e6;
+            --danger-color: #dc3545;
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .auth-container {
+            background-color: var(--white-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 420px;
+            text-align: left;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0b5ed7;
+            border-color: #0b5ed7;
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--muted-color);
+            text-align: center;
+        }
+
+        .back-link a {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h1 class="auth-title">Create Your Account</h1>
+        
+        <form action="{%url "users:signup_email" %}" method="POST">
+            <!-- In a real form, we'd add {% csrf_token %} here -->
+            {% csrf_token %}
+            <div class="form-group">
+                <label for = "{{form.email.id_for_label}}" class="form-label">Email Address</label>
+                {{form.email}}
+                {% if form.email.errors %}
+                    <div class = "form-error">{{form.email.errors.as_text}}</div>
+                {%endif%}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.dob.id_for_label }}" class="form-label">Date of Birth</label>
+                {{ form.dob }}
+                {% if form.dob.errors %}
+                    <div class="form-error">{{ form.dob.errors.as_text }}</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="submit-btn">Verify Email</button>
+        </form>
+
+        <p class="back-link">
+            <a href="{% url "users:signup_choice" %}">&larr; Back to all signup options</a>
+        </p>
+    </div>
+
+</body>
+</html>

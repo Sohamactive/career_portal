@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Unisoft Corner</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #212529;
+            --muted-color: #6c757d;
+            --bg-color: #f8f9fa;
+            --white-color: #ffffff;
+            --border-color: #dee2e6;
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .auth-container {
+            background-color: var(--white-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-subtitle {
+            color: var(--muted-color);
+            margin-bottom: 2rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            background-color: var(--white-color);
+            color: var(--secondary-color);
+            transition: background-color 0.2s;
+        }
+
+        .social-btn:hover {
+            background-color: #f1f3f5;
+        }
+
+        .social-btn svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--muted-color);
+            margin: 1.5rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .5em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .5em;
+        }
+        
+        .email-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            transition: background-color 0.2s;
+        }
+
+        .email-btn:hover {
+            background-color: #0b5ed7;
+            border-color: #0b5ed7;
+        }
+
+        .login-link {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--muted-color);
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h1 class="auth-title">Join Unisoft Corner</h1>
+        <p class="auth-subtitle">Create your profile to view and apply for internships.</p>
+
+        <a href="#" class="social-btn">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google</title><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.02 1.02-2.3 1.62-4.25 1.62-5.03 0-9.1-3.9-9.1-8.8s4.07-8.8 9.1-8.8c2.8 0 4.63.98 6.08 2.3l2.04-2.04C19.41 1.23 16.47 0 12.48 0 5.88 0 .52 5.36.52 12s5.36 12 11.96 12c3.12 0 5.56-1.1 7.4-2.94 1.9-1.9 2.54-4.86 2.54-8.28 0-.66-.07-1.32-.19-1.98z"/></svg>
+            Sign Up with Google
+        </a>
+        <a href="#" class="social-btn">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            Sign Up with GitHub
+        </a>
+
+        <div class="divider">OR</div>
+
+        <a href="{% url "users:signup_email"%}" class="email-btn">
+            Sign Up with Email
+        </a>
+
+        <p class="login-link">
+            Already have an account? <a href="#">Log In</a>
+        </p>
+    </div>
+
+</body>
+</html>
+

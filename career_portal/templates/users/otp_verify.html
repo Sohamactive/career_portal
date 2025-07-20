@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #212529;
+            --muted-color: #6c757d;
+            --bg-color: #f8f9fa;
+            --white-color: #ffffff;
+            --border-color: #dee2e6;
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .auth-container {
+            background-color: var(--white-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .auth-subtitle {
+            color: var(--muted-color);
+            margin-bottom: 2rem;
+        }
+        .otp-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        .otp-input {
+            width: 45px;
+            height: 50px;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .otp-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #0b5ed7;
+        }
+        .resend-link {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--muted-color);
+        }
+        .resend-link a {
+            color: var(--primary-color);
+            font-weight: 500;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1 class="auth-title">Check Your Email</h1>
+        <p class="auth-subtitle">We've sent a 6-digit verification code to your email address.</p>
+
+        {% if error %}
+            <p style="color: var(--danger-color); margin-bottom: 1rem;">{{ error }}</p>
+        {% endif %}
+
+        <form action="{% url 'users:otp_verify' %} " method="POST">
+            {%csrf_token%}
+            <div class="otp-group">
+                <input type="text" class="otp-input" name="otp_1" maxlength="1" required>
+                <input type="text" class="otp-input" name="otp_2" maxlength="1" required>
+                <input type="text" class="otp-input" name="otp_3" maxlength="1" required>
+                <input type="text" class="otp-input" name="otp_4" maxlength="1" required>
+                <input type="text" class="otp-input" name="otp_5" maxlength="1" required>
+                <input type="text" class="otp-input" name="otp_6" maxlength="1" required>
+            </div>
+            <button type="submit" class="submit-btn">Verify</button>
+        </form>
+
+        <p class="resend-link">
+            Didn't receive the code? <a href="#">Resend Code</a>
+        </p>
+    </div>
+
+    <script>
+        // A little script to auto-focus the next OTP input for a better UX
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                } else if (e.key === 'Backspace') {
+                    if (index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
