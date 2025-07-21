@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Unisoft Corner{% endblock %}</title>
+    <style>
+        /* This CSS will now be available on every page */
+        :root {
+            --primary-color: #0d6efd;
+            --primary-hover: #0b5ed7;
+            --secondary-color: #212529;
+            --muted-color: #6c757d;
+            --bg-color: #f8f9fa;
+            --white-color: #ffffff;
+            --border-color: #dee2e6;
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            line-height: 1.6;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex-grow: 1;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .header {
+            background-color: var(--white-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--primary-color);
+        }
+        .nav-links a {
+            color: var(--muted-color);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        .nav-button {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: var(--primary-hover);
+            color: var(--white-color);
+        }
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            background-color: var(--white-color);
+            border-top: 1px solid var(--border-color);
+            color: var(--muted-color);
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+
+    {% include 'core/nav.html' %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; {% now "Y" %} Unisoft Corner. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

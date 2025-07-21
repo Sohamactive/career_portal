@@ -1,0 +1,130 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Open Internships - Unisoft Corner{% endblock %}
+
+{% block content %}
+<style>
+    .page-header {
+        background-color: var(--white-color);
+        padding: 3rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+    .page-header p {
+        font-size: 1.1rem;
+        color: var(--muted-color);
+        margin-top: 0.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .listing-container {
+        padding: 3rem 0;
+    }
+    .internship-card {
+        background-color: var(--white-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+    }
+    .internship-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transform: translateY(-5px);
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    .card-location {
+        font-size: 0.9rem;
+        color: var(--muted-color);
+        font-weight: 500;
+    }
+    .card-description {
+        color: var(--secondary-color);
+        margin-bottom: 1.5rem;
+    }
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--muted-color);
+    }
+    .badge-paid {
+        background-color: #d1e7dd;
+        color: #0f5132;
+        padding: 0.3rem 0.6rem;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 0.8rem;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h1>Open Internships</h1>
+        <p>Explore the available opportunities to start your career journey with Unisoft Corner.</p>
+    </div>
+</div>
+
+<div class="listing-container">
+    <div class="container">
+
+        <!-- This is where we will eventually loop through the internships -->
+        <!-- For now, here are two static example cards -->
+
+        <a href="#" class="internship-card">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Frontend Developer Intern</h2>
+                    <p class="card-location">Remote</p>
+                </div>
+                <span class="badge-paid">Paid</span>
+            </div>
+            <p class="card-description">
+                Join our frontend team to work on exciting new features for our flagship product. You will gain hands-on experience with modern JavaScript frameworks and responsive design.
+            </p>
+            <div class="card-footer">
+                <span><strong>Duration:</strong> 3 Months</span>
+                <span><strong>Deadline:</strong> August 15, 2025</span>
+            </div>
+        </a>
+
+        <a href="#" class="internship-card">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Backend Python (Django) Intern</h2>
+                    <p class="card-location">Ludhiana, Punjab (On-site)</p>
+                </div>
+                <span class="badge-paid">Paid</span>
+            </div>
+            <p class="card-description">
+                Work with our core backend team to build and maintain the APIs that power our application. You'll learn about database design, API security, and scalable systems.
+            </p>
+            <div class="card-footer">
+                <span><strong>Duration:</strong> 6 Months</span>
+                <span><strong>Deadline:</strong> August 10, 2025</span>
+            </div>
+        </a>
+
+        <!-- End of static examples -->
+    </div>
+</div>
+{% endblock %}

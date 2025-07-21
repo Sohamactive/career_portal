@@ -6,11 +6,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('accounts/', include('users.urls')),
-    path('internships/', include('internships.urls')),
+    path('account/', include('users.urls')),
+    path('internship/', include('internships.urls')),
     path('applications/', include('applications.urls')),
     # Add this line for allauth
-    # path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 

@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .forms import SignUpEmailForm , OtpForm , SetPasswordForm , UserProfileForm,CertificateForm
 import random
 from datetime import datetime , timedelta
-
+from django.conf import settings
 from .models import User,UserProfile,Certificate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login , authenticate,logout
@@ -89,7 +89,7 @@ def set_password_view(request):
                 user=user,
                 dob=datetime.fromisoformat(dob_str).date()
             )
-            
+            user.backend = settings.AUTHENTICATION_BACKENDS[0] 
             # Log the new user in automatically
             login(request, user)
 
@@ -173,3 +173,8 @@ def logout_view(request):
 
     logout(request)
     return render(request,"core/index.html")
+
+def dashboard_view(request):
+    # This view will become more complex later, but for now,
+    # it just renders the main dashboard layout.
+    return render(request, 'users/dashboard.html')

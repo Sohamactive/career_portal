@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block styles %}
+<style>
+    .dashboard-container {
+        display: flex;
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+    .dashboard-sidebar {
+        flex: 0 0 250px; /* Sidebar has a fixed width of 250px */
+        background-color: var(--white-color);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        height: fit-content;
+    }
+    .sidebar-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .sidebar-nav li a {
+        display: block;
+        padding: 0.75rem 1rem;
+        text-decoration: none;
+        color: var(--secondary-color);
+        font-weight: 500;
+        border-radius: 8px;
+        transition: background-color 0.2s, color 0.2s;
+    }
+    .sidebar-nav li a:hover {
+        background-color: #eef2ff; /* A light indigo */
+        color: var(--primary-color);
+    }
+    .sidebar-nav li a.active {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+    }
+    .dashboard-content {
+        flex-grow: 1; /* Main content takes up the remaining space */
+        background-color: var(--white-color);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#">My Internships</a>
+                </li>
+                <li>
+                    <a href="#" class="active">My Profile</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-content">
+        {% block dashboard_content %}
+            <!-- The content for "My Internships" or "My Profile" will go here -->
+            <h1>My Profile</h1>
+            <p>Here you can view and edit your personal and professional information.</p>
+        {% endblock %}
+    </div>
+
+</div>
+{% endblock %}

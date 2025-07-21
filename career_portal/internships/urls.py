@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 
 app_name = 'internships'
 
 urlpatterns = [
-    # Add your internship-related URL patterns here
+    path("listing/",views.internship_listing_view,name="internship_listing"),
 ]
