@@ -1,0 +1,107 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Apply for Internship{% endblock %}
+
+{% block styles %}
+<style>
+    .apply-container {
+        max-width: 720px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background-color: var(--white-color);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    .internship-subtitle {
+        font-size: 1.25rem;
+        color: var(--muted-color);
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+    .resume-info {
+        background-color: #eef2ff;
+        border: 1px solid #a5b4fc;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: #4338ca;
+    }
+    .resume-info a {
+        font-weight: 600;
+        color: #4338ca;
+    }
+    .submit-btn {
+        display: block;
+        width: 100%;
+        padding: 0.9rem 1rem;
+        margin-top: 2.5rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .submit-btn:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="apply-container">
+    <h1 class="page-title">Apply for Internship</h1>
+    <h2 class="internship-subtitle">Frontend Developer Intern</h2>
+
+    <form action="#" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <p class="form-label">Your Resume</p>
+            <div class="resume-info">
+                <p>
+                    We will use the resume currently saved to your profile.
+                    <br>
+                    Make sure it's up to date! <a href="#">Edit Profile</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="cover_letter" class="form-label">Cover Letter (Optional)</label>
+            <textarea id="cover_letter" name="cover_letter" class="form-control" placeholder="Tell us why you're a great fit for this role..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Application</button>
+    </form>
+</div>
+{% endblock %}

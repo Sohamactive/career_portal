@@ -89,42 +89,27 @@
 
         <!-- This is where we will eventually loop through the internships -->
         <!-- For now, here are two static example cards -->
-
-        <a href="#" class="internship-card">
+        {% for internship in internships %}
+        <a href="{% url "internships:internship_detail" int_id=internship.id%}" class="internship-card">
             <div class="card-header">
                 <div>
-                    <h2 class="card-title">Frontend Developer Intern</h2>
-                    <p class="card-location">Remote</p>
+                    <h2 class="card-title">{{internship.title}}</h2>
+                    <p class="card-location">{{internship.location}}</p>
                 </div>
-                <span class="badge-paid">Paid</span>
+                <span class="badge-paid">{{internship.type}}</span>
             </div>
             <p class="card-description">
-                Join our frontend team to work on exciting new features for our flagship product. You will gain hands-on experience with modern JavaScript frameworks and responsive design.
+                {{internship.description}}
             </p>
             <div class="card-footer">
-                <span><strong>Duration:</strong> 3 Months</span>
-                <span><strong>Deadline:</strong> August 15, 2025</span>
+                <span><strong>Duration:</strong>{{internship.duration}}</span>
+                <span><strong>Deadline:</strong>{{internship.application_deadline}}</span>
             </div>
         </a>
+        {% endfor %}
 
-        <a href="#" class="internship-card">
-            <div class="card-header">
-                <div>
-                    <h2 class="card-title">Backend Python (Django) Intern</h2>
-                    <p class="card-location">Ludhiana, Punjab (On-site)</p>
-                </div>
-                <span class="badge-paid">Paid</span>
-            </div>
-            <p class="card-description">
-                Work with our core backend team to build and maintain the APIs that power our application. You'll learn about database design, API security, and scalable systems.
-            </p>
-            <div class="card-footer">
-                <span><strong>Duration:</strong> 6 Months</span>
-                <span><strong>Deadline:</strong> August 10, 2025</span>
-            </div>
-        </a>
 
-        <!-- End of static examples -->
+        
     </div>
 </div>
 {% endblock %}

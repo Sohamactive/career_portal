@@ -1,0 +1,158 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Internship Details{% endblock %}
+
+{% block styles %}
+<style>
+    .detail-container {
+        display: flex;
+        gap: 2rem;
+        padding: 3rem 0;
+    }
+    .main-content {
+        flex-grow: 1;
+    }
+    .sidebar {
+        flex: 0 0 300px;
+        background-color: var(--white-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        height: fit-content;
+    }
+    .internship-header {
+        margin-bottom: 2rem;
+    }
+    .internship-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    .internship-location {
+        font-size: 1.1rem;
+        color: var(--muted-color);
+        font-weight: 500;
+    }
+    .detail-section {
+        margin-bottom: 2rem;
+    }
+    .detail-section h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .detail-section p, .detail-section ul {
+        line-height: 1.8;
+        color: var(--secondary-color);
+    }
+    .detail-section ul {
+        padding-left: 1.5rem;
+    }
+    .sidebar-item {
+        margin-bottom: 1.5rem;
+    }
+    .sidebar-item h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--muted-color);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+    }
+    .sidebar-item p {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    .apply-btn {
+        display: block;
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .apply-btn:hover {
+        background-color: #0b5ed7;
+    }
+    .skill-tag {
+        display: inline-block;
+        background-color: #eef2ff;
+        color: var(--primary-color);
+        padding: 0.3rem 0.8rem;
+        border-radius: 16px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container detail-container">
+
+    <!-- Main Internship Details -->
+    <div class="main-content">
+        <div class="internship-header">
+            <h1 class="internship-title">{{internship.title}}</h1>
+            <p class="internship-location">{{internship.type}}</p>
+        </div>
+
+        <div class="detail-section">
+            <h2>Job Description</h2>
+            <p>{{internship.description}}</p>
+        </div>
+
+        <div class="detail-section">
+            <h2>Requirements</h2>
+            <ul>
+                {%for sentence in sentences %}
+                <li>{{sentence}}</li>
+                {%endfor%}
+            </ul>
+        </div>
+
+        <div class="detail-section">
+            <h2>Eligibility</h2>
+            <p>{{internship.eligibility}}</p>
+        </div>
+    </div>
+
+    <!-- Sidebar with Key Info -->
+    <aside class="sidebar">
+        <div class="sidebar-item">
+            <h3>Type</h3>
+            <p>{{internship.type}}</p>
+        </div>
+        <div class="sidebar-item">
+            <h3>Duration</h3>
+            <p>{{internship.duration}}</p>
+        </div>
+        <div class="sidebar-item">
+            <h3>Application Deadline</h3>
+            <p>{{internship.application_deadline}}</p>
+        </div>
+        <div class="sidebar-item">
+            <h3>Skills Required</h3>
+            
+            <div class="skills-container">
+                {% for skill in internship.skills_required.all %}
+            
+                <span class="skill-tag">{{skill}}</span>
+                
+            {%endfor%}
+            </div>
+        </div>
+        <a href="{% url "applications:apply" %}" class="apply-btn">Apply Now</a>
+    </aside>
+
+</div>
+{% endblock %}

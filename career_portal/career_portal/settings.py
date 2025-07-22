@@ -19,6 +19,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -167,5 +168,5 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = False
-LOGIN_REDIRECT_URL = '/'  # Redirect to homepage after login
+LOGIN_REDIRECT_URL = '/internships/'  # Redirect to homepage after login
 ACCOUNT_LOGOUT_ON_GET = True # Logout without a confirmation page

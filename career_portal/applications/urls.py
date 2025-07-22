@@ -4,5 +4,5 @@ from . import views
 app_name = 'applications'
 
 urlpatterns = [
-    # Add your application-related URL patterns here
+    path("",views.apply_view,name="apply"),
 ]

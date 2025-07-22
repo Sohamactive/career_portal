@@ -6,6 +6,9 @@ from django.conf import settings
 from .models import User,UserProfile,Certificate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login , authenticate,logout
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+User = get_user_model()
 # Create your views here.
 def signup_choice_view(request):
     return render(request, 'users/signup_choice.html')
@@ -174,7 +177,24 @@ def logout_view(request):
     logout(request)
     return render(request,"core/index.html")
 
+from datetime import date
+@login_required
 def dashboard_view(request):
-    # This view will become more complex later, but for now,
-    # it just renders the main dashboard layout.
-    return render(request, 'users/dashboard.html')
+    user_profile,_=UserProfile.objects.get_or_create(user = request.user)
+    certificates = user_profile.certificates.all()
+    age = None
+    if user_profile.dob:
+        today = date.today()
+        age = today.year - user_profile.dob.year - (
+            (today.month, today.day) < (user_profile.dob.month, user_profile.dob.day)
+        )
+    context={
+        'user_profile': user_profile,
+        'user': request.user,
+        'certificates':certificates,
+        'age':age
+    }
+    return render(request, 'users/dashboard.html',context)
+
+def edit_profile_view(request):
+    return render(request,"users/edit_profile.html")

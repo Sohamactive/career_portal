@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}My Profile - Dashboard{% endblock %}
 
 {% block styles %}
 <style>
@@ -8,9 +8,10 @@
         display: flex;
         gap: 2rem;
         padding: 2rem 0;
+        align-items: flex-start;
     }
     .dashboard-sidebar {
-        flex: 0 0 250px; /* Sidebar has a fixed width of 250px */
+        flex: 0 0 250px;
         background-color: var(--white-color);
         padding: 1.5rem;
         border-radius: 12px;
@@ -32,7 +33,7 @@
         transition: background-color 0.2s, color 0.2s;
     }
     .sidebar-nav li a:hover {
-        background-color: #eef2ff; /* A light indigo */
+        background-color: #eef2ff;
         color: var(--primary-color);
     }
     .sidebar-nav li a.active {
@@ -40,19 +41,81 @@
         color: var(--white-color);
     }
     .dashboard-content {
-        flex-grow: 1; /* Main content takes up the remaining space */
+        flex-grow: 1;
         background-color: var(--white-color);
-        padding: 2rem;
+        padding: 2.5rem;
         border-radius: 12px;
         border: 1px solid var(--border-color);
+    }
+    .profile-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ccc;
+        margin-bottom: 1rem;
+    }
+    .edit-profile-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--secondary-color);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s, color 0.2s;
+    }
+    .edit-profile-btn:hover {
+        background-color: var(--bg-color);
+    }
+    .profile-info label {
+        font-weight: bold;
+        display: block;
+        margin-top: 1.5rem;
+        color: #555;
+    }
+    .profile-info p, .profile-info a {
+        padding-left: 10px;
+        color: #222;
+        margin-bottom: 1rem;
+        word-break: break-word;
+    }
+    .resume-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .resume-link a {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .resume-link a:hover {
+        background: #0056b3;
+    }
+    /* Style for the certificate list */
+    .profile-info ul {
+        list-style: none;
+        padding-left: 10px;
+    }
+    .profile-info li {
+        margin-bottom: 0.5rem;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container dashboard-container">
-    
-    <!-- Sidebar -->
+
     <aside class="dashboard-sidebar">
         <nav class="sidebar-nav">
             <ul>
@@ -66,14 +129,69 @@
         </nav>
     </aside>
 
-    <!-- Main Content Area -->
     <div class="dashboard-content">
-        {% block dashboard_content %}
-            <!-- The content for "My Internships" or "My Profile" will go here -->
-            <h1>My Profile</h1>
-            <p>Here you can view and edit your personal and professional information.</p>
-        {% endblock %}
-    </div>
 
+        <div class="profile-header">
+            {% if user_profile.profile_picture %}
+                <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            {% else %}
+                <img src="https://placehold.co/150x150/EBF4FF/7F9CF5?text={{ user.email|first|upper }}" alt="Profile Picture" class="profile-picture">
+            {% endif %}
+            <h1>{{ user.email }}</h1>
+            <a href="{% url 'users:edit_profile' %}" class="edit-profile-btn">Edit Profile</a>
+        </div>
+
+        <div class="profile-info">
+            <label>Full Name</label>
+            <p>{{ user_profile.full_name|default:"Not Provided" }}</p>
+
+            <label>Date of Birth</label>
+            <p>{{ user_profile.dob|default:"Not Provided" }}</p>
+
+            <label>Age</label>
+            <p>{{ age|default:"Not Provided" }}</p>
+
+            <label>Bio</label>
+            <p>{{ user_profile.bio|default:"Not Provided" }}</p>
+
+            <label>LinkedIn</label>
+            <p>
+                {% if user_profile.linkedin_url %}
+                    <a href="{{ user_profile.linkedin_url }}" target="_blank">{{ user_profile.linkedin_url }}</a>
+                {% else %}
+                    Not Provided
+                {% endif %}
+            </p>
+
+            <label>GitHub</label>
+            <p>
+                {% if user_profile.github_url %}
+                    <a href="{{ user_profile.github_url }}" target="_blank">{{ user_profile.github_url }}</a>
+                {% else %}
+                    Not Provided
+                {% endif %}
+            </p>
+
+            <label>Address</label>
+            <p>{{ user_profile.address|default:"Not Provided" }}</p>
+
+            <!-- UPDATED CERTIFICATES SECTION -->
+            <label>Certificates</label>
+            <ul>
+                {% for cert in certificates %}
+                    <li><a href="{{ cert.file.url }}" target="_blank">{{ cert.title|default:"Certificate" }}</a></li>
+                {% empty %}
+                    <li><p style="color: var(--muted-color); padding-left: 0;">No certificates have been uploaded yet.</p></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if user_profile.resume %}
+            <div class="resume-link">
+                <a href="{{ user_profile.resume.url }}" target="_blank">Download Resume</a>
+            </div>
+        {% endif %}
+        
+    </div>
 </div>
 {% endblock %}

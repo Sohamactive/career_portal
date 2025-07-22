@@ -1,0 +1,217 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block styles %}
+<style>
+    .edit-container {
+        max-width: 720px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background-color: var(--white-color);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .page-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.5rem;
+        margin-top: 2rem;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .form-label .optional {
+        font-weight: 400;
+        color: var(--muted-color);
+        font-size: 0.85rem;
+    }
+    .form-control, .form-control-disabled {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    .form-control-disabled {
+        background-color: var(--bg-color);
+        color: var(--muted-color);
+    }
+    textarea.form-control {
+        min-height: 100px;
+        resize: vertical;
+    }
+    .certificate-entry {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    .certificate-info {
+        flex-grow: 1;
+    }
+    .remove-btn {
+        height: 40px;
+        padding: 0 1rem;
+        border: 1px solid var(--danger-color);
+        background-color: transparent;
+        color: var(--danger-color);
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .add-btn {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        background-color: transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.5rem;
+    }
+    .submit-btn, .cancel-btn {
+        flex-grow: 1;
+        padding: 0.9rem 1rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+    }
+    .submit-btn {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+    }
+    .cancel-btn {
+        background-color: var(--white-color);
+        color: var(--secondary-color);
+        border: 1px solid var(--border-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-container">
+    <h1 class="page-title">Edit Your Profile</h1>
+    
+    <form action="#" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h2 class="section-title">Personal Information</h2>
+
+        <div class="form-group">
+            <label class="form-label">Full Name (Locked)</label>
+            <input type="text" class="form-control-disabled" value="Soham Sharma" disabled>
+        </div>
+
+        <div class="form-group">
+            <label for="profile_picture" class="form-label">Update Profile Picture</label>
+            <input type="file" id="profile_picture" name="profile_picture" class="form-control" accept="image/*">
+        </div>
+        
+        <div class="form-group">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea id="bio" name="bio" class="form-control">A passionate and driven Computer Science student...</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="address" class="form-label">Address</label>
+            <textarea id="address" name="address" class="form-control">Ludhiana, Punjab</textarea>
+        </div>
+
+        <h2 class="section-title">Professional Details</h2>
+
+        <div class="form-group">
+            <label for="resume" class="form-label">Upload New Resume</label>
+            <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
+        </div>
+
+        <div class="form-group">
+            <label for="linkedin_url" class="form-label">LinkedIn Profile URL</label>
+            <input type="url" id="linkedin_url" name="linkedin_url" class="form-control" value="https://linkedin.com/in/sohamsharma">
+        </div>
+
+        <div class="form-group">
+            <label for="github_url" class="form-label">GitHub Profile URL</label>
+            <input type="url" id="github_url" name="github_url" class="form-control" value="https://github.com/sohamactive">
+        </div>
+
+        <h2 class="section-title">Manage Certificates</h2>
+        <div id="certificates-container">
+            <!-- Static example of an existing certificate -->
+            <div class="certificate-entry">
+                <div class="certificate-info">
+                    <strong>Advanced Python</strong><br>
+                    <small>Currently: python_cert.pdf</small>
+                </div>
+                <button type="button" class="remove-btn">Remove</button>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem; font-weight: 600;">Upload New Certificates</h3>
+        <div id="new-certificates-container">
+            <!-- New certificate fields will be added here -->
+        </div>
+        <button type="button" class="add-btn" id="add-certificate-btn">+ Add Certificate</button>
+        
+        <div class="form-actions">
+            <a href="#" class="cancel-btn">Cancel</a>
+            <button type="submit" class="submit-btn">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const newCertContainer = document.getElementById('new-certificates-container');
+        const addButton = document.getElementById('add-certificate-btn');
+
+        addButton.addEventListener('click', function() {
+            const newEntry = document.createElement('div');
+            newEntry.classList.add('certificate-entry');
+            newEntry.innerHTML = `
+                <div class="form-group" style="flex-grow: 1; margin-bottom: 0;">
+                    <label class="form-label">Certificate Title</label>
+                    <input type="text" name="new_cert_title" class="form-control">
+                </div>
+                <div class="form-group" style="flex-grow: 1; margin-bottom: 0;">
+                    <label class="form-label">Certificate File</label>
+                    <input type="file" name="new_cert_file" class="form-control" required>
+                </div>
+                <button type="button" class="remove-btn">Remove</button>
+            `;
+            newCertContainer.appendChild(newEntry);
+            newEntry.querySelector('.remove-btn').addEventListener('click', () => newEntry.remove());
+        });
+
+        document.querySelectorAll('#certificates-container .remove-btn').forEach(button => {
+            button.addEventListener('click', () => button.closest('.certificate-entry').remove());
+        });
+    });
+</script>
+
+{% endblock %}

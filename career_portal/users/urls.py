@@ -25,5 +25,6 @@ urlpatterns = [
     
     # Add this path for the dashboard
     path('dashboard/', views.dashboard_view, name='dashboard'),
+    path("edit_profile/",views.edit_profile_view,name="edit_profile")
 
 ]
