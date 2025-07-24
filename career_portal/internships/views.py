@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from .models import Internship
 # Create your views here.
+@login_required
 def internship_listing_view(request):
     internships = Internship.objects.filter(is_active = True).order_by('-created_at')
     context = {
@@ -17,5 +19,6 @@ def internship_detail_view(request,int_id):
         'internship' : internship,
         'sentences' : sentences,
         'eligibilties':eligibilties,
+        
     }
     return render(request,"internships/internship_detail.html",context)

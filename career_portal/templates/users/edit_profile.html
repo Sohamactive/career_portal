@@ -34,11 +34,6 @@
         font-weight: 500;
         margin-bottom: 0.5rem;
     }
-    .form-label .optional {
-        font-weight: 400;
-        color: var(--muted-color);
-        font-size: 0.85rem;
-    }
     .form-control, .form-control-disabled {
         display: block;
         width: 100%;
@@ -118,58 +113,60 @@
 <div class="edit-container">
     <h1 class="page-title">Edit Your Profile</h1>
     
-    <form action="#" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'users:edit_profile' %}?next={{ request.GET.next }}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
         <h2 class="section-title">Personal Information</h2>
 
         <div class="form-group">
             <label class="form-label">Full Name (Locked)</label>
-            <input type="text" class="form-control-disabled" value="Soham Sharma" disabled>
+            <input type="text" class="form-control-disabled" value="{{ form.instance.full_name }}" disabled>
         </div>
 
         <div class="form-group">
-            <label for="profile_picture" class="form-label">Update Profile Picture</label>
-            <input type="file" id="profile_picture" name="profile_picture" class="form-control" accept="image/*">
+            <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Update Profile Picture</label>
+            {{ form.profile_picture }}
         </div>
         
         <div class="form-group">
-            <label for="bio" class="form-label">Bio</label>
-            <textarea id="bio" name="bio" class="form-control">A passionate and driven Computer Science student...</textarea>
+            <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
+            {{ form.bio }}
         </div>
         
         <div class="form-group">
-            <label for="address" class="form-label">Address</label>
-            <textarea id="address" name="address" class="form-control">Ludhiana, Punjab</textarea>
+            <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+            {{ form.address }}
         </div>
 
         <h2 class="section-title">Professional Details</h2>
 
         <div class="form-group">
-            <label for="resume" class="form-label">Upload New Resume</label>
-            <input type="file" id="resume" name="resume" class="form-control" accept=".pdf">
+            <label for="{{ form.resume.id_for_label }}" class="form-label">Upload New Resume</label>
+            {{ form.resume }}
         </div>
 
         <div class="form-group">
-            <label for="linkedin_url" class="form-label">LinkedIn Profile URL</label>
-            <input type="url" id="linkedin_url" name="linkedin_url" class="form-control" value="https://linkedin.com/in/sohamsharma">
+            <label for="{{ form.linkedin_url.id_for_label }}" class="form-label">LinkedIn Profile URL</label>
+            {{ form.linkedin_url }}
         </div>
 
         <div class="form-group">
-            <label for="github_url" class="form-label">GitHub Profile URL</label>
-            <input type="url" id="github_url" name="github_url" class="form-control" value="https://github.com/sohamactive">
+            <label for="{{ form.github_url.id_for_label }}" class="form-label">GitHub Profile URL</label>
+            {{ form.github_url }}
         </div>
 
         <h2 class="section-title">Manage Certificates</h2>
         <div id="certificates-container">
-            <!-- Static example of an existing certificate -->
+            {% for cert in certificates %}
             <div class="certificate-entry">
                 <div class="certificate-info">
-                    <strong>Advanced Python</strong><br>
-                    <small>Currently: python_cert.pdf</small>
+                    <strong>{{ cert.title }}</strong><br>
+                    <small>Current file: <a href="{{ cert.file.url }}" target="_blank">{{ cert.file.name|slice:"certificates/" }}</a></small>
+                    <input type="hidden" name="existing_cert_id" value="{{ cert.id }}">
                 </div>
                 <button type="button" class="remove-btn">Remove</button>
             </div>
+            {% endfor %}
         </div>
 
         <h3 style="margin-top: 2rem; font-weight: 600;">Upload New Certificates</h3>
@@ -179,7 +176,7 @@
         <button type="button" class="add-btn" id="add-certificate-btn">+ Add Certificate</button>
         
         <div class="form-actions">
-            <a href="#" class="cancel-btn">Cancel</a>
+            <a href="{% url 'users:dashboard' %}" class="cancel-btn">Cancel</a>
             <button type="submit" class="submit-btn">Save Changes</button>
         </div>
     </form>
@@ -190,28 +187,42 @@
         const newCertContainer = document.getElementById('new-certificates-container');
         const addButton = document.getElementById('add-certificate-btn');
 
-        addButton.addEventListener('click', function() {
-            const newEntry = document.createElement('div');
-            newEntry.classList.add('certificate-entry');
-            newEntry.innerHTML = `
-                <div class="form-group" style="flex-grow: 1; margin-bottom: 0;">
-                    <label class="form-label">Certificate Title</label>
-                    <input type="text" name="new_cert_title" class="form-control">
-                </div>
-                <div class="form-group" style="flex-grow: 1; margin-bottom: 0;">
-                    <label class="form-label">Certificate File</label>
-                    <input type="file" name="new_cert_file" class="form-control" required>
-                </div>
-                <button type="button" class="remove-btn">Remove</button>
-            `;
-            newCertContainer.appendChild(newEntry);
-            newEntry.querySelector('.remove-btn').addEventListener('click', () => newEntry.remove());
-        });
+        if(addButton){
+            addButton.addEventListener('click', function() {
+                const newEntry = document.createElement('div');
+                newEntry.classList.add('certificate-entry');
+                newEntry.innerHTML = `
+                    <div class="form-group" style="flex-grow: 1; margin-bottom: 0;">
+                        <label class="form-label">Certificate Title</label>
+                        <input type="text" name="new_cert_title" class="form-control">
+                    </div>
+                    <div class="form-group" style="flex-grow: 1; margin-bottom: 0;">
+                        <label class="form-label">Certificate File</label>
+                        <input type="file" name="new_cert_file" class="form-control" required>
+                    </div>
+                    <button type="button" class="remove-btn">Remove</button>
+                `;
+                newCertContainer.appendChild(newEntry);
+                newEntry.querySelector('.remove-btn').addEventListener('click', () => newEntry.remove());
+            });
+        }
 
         document.querySelectorAll('#certificates-container .remove-btn').forEach(button => {
-            button.addEventListener('click', () => button.closest('.certificate-entry').remove());
+            button.addEventListener('click', function() {
+                const entry = button.closest('.certificate-entry');
+                const certIdInput = entry.querySelector('input[name="existing_cert_id"]');
+                
+                if (certIdInput) {
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'delete_cert';
+                    hiddenInput.value = certIdInput.value;
+                    entry.closest('form').appendChild(hiddenInput);
+                }
+                
+                entry.style.display = 'none';
+            });
         });
     });
 </script>
-
 {% endblock %}

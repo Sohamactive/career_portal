@@ -1,136 +1,225 @@
 {% extends 'core/base.html' %}
 
-{% block title %}My Profile - Dashboard{% endblock %}
+{% block title %}Dashboard - My Profile{% endblock %}
 
 {% block styles %}
 <style>
+    :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        --border-color: #e2e8f0;
+        --muted-color: #6b7280;
+        --text-color: #1f2937;
+        --white-color: #ffffff;
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
     .dashboard-container {
         display: flex;
         gap: 2rem;
-        padding: 2rem 0;
-        align-items: flex-start;
+        padding: 3rem 0;
+        animation: fadeInUp 0.8s ease-out;
     }
+
     .dashboard-sidebar {
         flex: 0 0 250px;
-        background-color: var(--white-color);
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
         padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid var(--border-color);
-        height: fit-content;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
+
     .sidebar-nav ul {
         list-style: none;
         padding: 0;
-        margin: 0;
     }
+
     .sidebar-nav li a {
         display: block;
         padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
         text-decoration: none;
-        color: var(--secondary-color);
         font-weight: 500;
+        color: var(--text-color);
         border-radius: 8px;
-        transition: background-color 0.2s, color 0.2s;
+        transition: 0.3s ease;
     }
+
     .sidebar-nav li a:hover {
-        background-color: #eef2ff;
+        background-color: rgba(255, 255, 255, 0.3);
         color: var(--primary-color);
     }
+
     .sidebar-nav li a.active {
         background-color: var(--primary-color);
-        color: var(--white-color);
+        color: #fff;
+        box-shadow: 0 3px 6px rgba(13, 110, 253, 0.2);
     }
+
     .dashboard-content {
         flex-grow: 1;
-        background-color: var(--white-color);
-        padding: 2.5rem;
-        border-radius: 12px;
+        background-color: #fff;
+        padding: 2.5rem 3rem;
+        border-radius: 16px;
         border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md);
     }
+
     .profile-header {
         text-align: center;
         margin-bottom: 2rem;
         position: relative;
     }
+
     .profile-picture {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #ccc;
+        border: 4px solid var(--primary-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         margin-bottom: 1rem;
+        transition: transform 0.4s ease;
     }
+
+    .profile-picture:hover {
+        transform: scale(1.1);
+    }
+
     .edit-profile-btn {
         position: absolute;
         top: 0;
         right: 0;
-        background-color: transparent;
-        border: 1px solid var(--border-color);
-        color: var(--secondary-color);
-        padding: 0.6rem 1.2rem;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s ease;
+    }
+
+    .edit-profile-btn:hover {
+        background-color: var(--primary-hover);
+        transform: scale(1.05);
+    }
+
+    .profile-info label {
+        font-weight: 600;
+        display: block;
+        margin-top: 1.5rem;
+        color: var(--muted-color);
+        font-size: 0.9rem;
+    }
+
+    .profile-info p,
+    .profile-info a {
+        padding-left: 10px;
+        color: var(--text-color);
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .profile-info a svg {
+        width: 18px;
+        height: 18px;
+        fill: var(--primary-color);
+        transition: transform 0.3s ease;
+    }
+
+    .profile-info a:hover svg {
+        transform: scale(1.1);
+    }
+
+    .resume-link {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .resume-link a {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.75rem 1.5rem;
         border-radius: 8px;
         text-decoration: none;
         font-weight: 500;
-        transition: background-color 0.2s, color 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background-color 0.3s ease;
     }
-    .edit-profile-btn:hover {
-        background-color: var(--bg-color);
-    }
-    .profile-info label {
-        font-weight: bold;
-        display: block;
-        margin-top: 1.5rem;
-        color: #555;
-    }
-    .profile-info p, .profile-info a {
-        padding-left: 10px;
-        color: #222;
-        margin-bottom: 1rem;
-        word-break: break-word;
-    }
-    .resume-link {
-        text-align: center;
-        margin-top: 20px;
-    }
-    .resume-link a {
-        background: #007bff;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-    }
+
     .resume-link a:hover {
-        background: #0056b3;
+        background-color: var(--primary-hover);
     }
-    /* Style for the certificate list */
-    .profile-info ul {
-        list-style: none;
-        padding-left: 10px;
+
+    .resume-link a svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
     }
-    .profile-info li {
-        margin-bottom: 0.5rem;
+
+    /* Certificate box styles */
+    .certificate-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-left: 0;
+        margin-top: 1rem;
+    }
+
+    .certificate-grid a {
+        display: inline-block;
+        background-color: #f3f4f6;
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #111827;
+        font-weight: 500;
+        font-size: 0.95rem;
+        border: 1px solid #d1d5db;
+        transition: 0.3s ease;
+    }
+
+    .certificate-grid a:hover {
+        background-color: #e5e7eb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container dashboard-container">
-
     <aside class="dashboard-sidebar">
         <nav class="sidebar-nav">
             <ul>
-                <li>
-                    <a href="#">My Internships</a>
-                </li>
-                <li>
-                    <a href="#" class="active">My Profile</a>
-                </li>
+                <li><a href="{% url 'users:my_internships' %}">My Internships</a></li>
+                <li><a href="#" class="active">My Profile</a></li>
             </ul>
         </nav>
     </aside>
 
     <div class="dashboard-content">
-
         <div class="profile-header">
             {% if user_profile.profile_picture %}
                 <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
@@ -157,7 +246,10 @@
             <label>LinkedIn</label>
             <p>
                 {% if user_profile.linkedin_url %}
-                    <a href="{{ user_profile.linkedin_url }}" target="_blank">{{ user_profile.linkedin_url }}</a>
+                    <a href="{{ user_profile.linkedin_url }}" target="_blank">
+                        <!-- SVG omitted for brevity -->
+                        {{ user_profile.linkedin_url }}
+                    </a>
                 {% else %}
                     Not Provided
                 {% endif %}
@@ -166,7 +258,10 @@
             <label>GitHub</label>
             <p>
                 {% if user_profile.github_url %}
-                    <a href="{{ user_profile.github_url }}" target="_blank">{{ user_profile.github_url }}</a>
+                    <a href="{{ user_profile.github_url }}" target="_blank">
+                        <!-- SVG omitted for brevity -->
+                        {{ user_profile.github_url }}
+                    </a>
                 {% else %}
                     Not Provided
                 {% endif %}
@@ -175,23 +270,26 @@
             <label>Address</label>
             <p>{{ user_profile.address|default:"Not Provided" }}</p>
 
-            <!-- UPDATED CERTIFICATES SECTION -->
             <label>Certificates</label>
-            <ul>
-                {% for cert in certificates %}
-                    <li><a href="{{ cert.file.url }}" target="_blank">{{ cert.title|default:"Certificate" }}</a></li>
-                {% empty %}
-                    <li><p style="color: var(--muted-color); padding-left: 0;">No certificates have been uploaded yet.</p></li>
-                {% endfor %}
-            </ul>
+            {% if certificates %}
+                <div class="certificate-grid">
+                    {% for cert in certificates %}
+                        <a href="{{ cert.file.url }}" target="_blank">{{ cert.title|default:"Certificate" }}</a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="color: var(--muted-color); padding-left: 0;">No certificates have been uploaded yet.</p>
+            {% endif %}
         </div>
 
         {% if user_profile.resume %}
-            <div class="resume-link">
-                <a href="{{ user_profile.resume.url }}" target="_blank">Download Resume</a>
-            </div>
+        <div class="resume-link">
+            <a href="{{ user_profile.resume.url }}" target="_blank">
+                <!-- SVG omitted for brevity -->
+                Resume
+            </a>
+        </div>
         {% endif %}
-        
     </div>
 </div>
 {% endblock %}

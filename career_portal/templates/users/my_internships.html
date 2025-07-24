@@ -1,0 +1,192 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard - My Internships{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        --border-color: #e2e8f0;
+        --muted-color: #6b7280;
+        --text-color: #1f2937;
+        --white-color: #ffffff;
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .dashboard-container {
+        display: flex;
+        gap: 2rem;
+        padding: 3rem 0;
+    }
+    .dashboard-sidebar {
+        flex: 0 0 250px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        padding: 1.5rem;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    .sidebar-nav ul {
+        list-style: none;
+        padding: 0;
+    }
+    .sidebar-nav li a {
+        display: block;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        color: var(--text-color);
+        border-radius: 8px;
+        transition: 0.3s ease;
+    }
+    .sidebar-nav li a:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        color: var(--primary-color);
+    }
+    .sidebar-nav li a.active {
+        background-color: var(--primary-color);
+        color: #fff;
+        box-shadow: 0 3px 6px rgba(13, 110, 253, 0.2);
+    }
+    .dashboard-content {
+        flex-grow: 1;
+        background-color: #fff;
+        padding: 2.5rem 3rem;
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md);
+    }
+    .application-card {
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        background-color: #fdfdfd;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    .card-link {
+        display: block;
+        padding: 2rem;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease;
+    }
+    .card-link:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+    .application-card h2 {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    .application-card .status {
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 1rem;
+        text-transform: capitalize;
+    }
+    .status-applied, .status-under_review {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+    .status-offered {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+    .status-rejected, .status-auto_rejected {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+    .status-accepted, .status-working {
+        background-color: #cff4fc;
+        color: #055160;
+    }
+    .application-card p {
+        color: var(--text-color);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+    .application-card .actions {
+        padding: 1rem 2rem 2rem;
+        display: flex;
+        gap: 1rem;
+    }
+    .application-card .actions button {
+        padding: 0.6rem 1.3rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+        cursor: pointer;
+    }
+    .application-card .actions .btn-accept {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+    .application-card .actions .btn-accept:hover {
+        background-color: var(--primary-hover);
+    }
+    .application-card .actions .btn-decline {
+        background-color: #f3f4f6;
+        color: #333;
+        border: 1px solid var(--border-color);
+    }
+    .application-card .actions .btn-decline:hover {
+        background-color: #e5e7eb;
+    }
+    .empty-state {
+        color: var(--muted-color);
+        font-size: 1rem;
+        padding: 2rem 0;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container dashboard-container">
+    <aside class="dashboard-sidebar">
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="{% url 'users:my_internships' %}" class="active">My Internships</a></li>
+                <li><a href="{% url 'users:dashboard' %}">My Profile</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="dashboard-content">
+        <h1>My Applications</h1>
+        {% for application in applications %}
+            <div class="application-card">
+                <a href="{% url 'internships:internship_detail' application.internship.id %}" class="card-link">
+                    <h2>{{ application.internship.title }}</h2>
+                    <span class="status status-{{ application.status|slugify }}">{{ application.get_status_display }}</span>
+                    <p>{{ application.internship.description|truncatewords:30 }}</p>
+                </a>
+                <div class="actions">
+                    {% if application.status == 'offered' %}
+                        <form action="{% url 'applications:accepted' app_id=application.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-accept">Accept Offer</button>
+                        </form>
+                        <form action="{% url 'applications:declined' app_id=application.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-decline">Decline Offer</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p class="empty-state">You have not applied to any internships yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

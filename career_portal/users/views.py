@@ -8,6 +8,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login , authenticate,logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from applications.models import Application
+from datetime import date
 User = get_user_model()
 # Create your views here.
 def signup_choice_view(request):
@@ -66,7 +68,6 @@ def otp_verify_view(request):
 
     return render(request, 'users/otp_verify.html')
 
-
 def set_password_view(request):
     # Check if user has completed the previous steps
     if not request.session.get('otp_verified'):
@@ -105,7 +106,6 @@ def set_password_view(request):
         form = SetPasswordForm()
 
     return render(request, 'users/set_password.html', {'form': form})
-
 
 def social_dob_view(request):
     return render(request, 'users/social_dob.html')
@@ -177,7 +177,6 @@ def logout_view(request):
     logout(request)
     return render(request,"core/index.html")
 
-from datetime import date
 @login_required
 def dashboard_view(request):
     user_profile,_=UserProfile.objects.get_or_create(user = request.user)
@@ -197,4 +196,40 @@ def dashboard_view(request):
     return render(request, 'users/dashboard.html',context)
 
 def edit_profile_view(request):
-    return render(request,"users/edit_profile.html")
+    profile= request.user.profile
+    next_url=request.GET.get('next') or request.POST.get('next') or 'users:dashboard'
+    if request.method == "POST" : 
+        form = UserProfileForm(request.POST,request.FILES,instance=profile)
+
+        if form.is_valid():
+            form.save()
+            certs_to_delete_ids = request.POST.getlist('delete_cert')
+            if certs_to_delete_ids:
+                Certificate.objects.filter(id__in = certs_to_delete_ids,user_profile=profile).delete()
+            new_cert_titles = request.POST.getlist('new_cert_title')
+            new_cert_files = request.FILES.getlist('new_cert_file')
+            for i in range(len(new_cert_titles)):
+                if new_cert_titles[i] and new_cert_files[i]:
+                    Certificate.objects.create(
+                        user_profile=profile,
+                        title=new_cert_titles[i],
+                        file=new_cert_files[i]
+                    )
+        return redirect(next_url)
+
+    else:
+        form = UserProfileForm(instance=profile)
+
+    context = {
+        'form': form,
+        'certificates':profile.certificates.all()
+    }
+    
+    return render(request,"users/edit_profile.html",context)
+
+def my_internships_view(request):
+    applications = Application.objects.filter(user=request.user)
+    context = {
+        'applications' : applications
+    }
+    return render(request,"users/my_internships.html",context)

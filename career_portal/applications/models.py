@@ -13,6 +13,7 @@ class Application(models.Model):
         ('rejected', 'Rejected'),
         ('offer_expired', 'Offer Expired'),
         ('auto_rejected', 'Auto Rejected'),
+        ('declined','Declined')
     )
                             ##here we are using auth_user_model from settings to refer to the user model
                             ##instead of directly importing the User model
@@ -32,6 +33,7 @@ class Application(models.Model):
     offer_made_at = models.DateTimeField(null=True, blank=True)
     offer_expiration = models.DurationField(default=timedelta(hours=72))  # 72-hour window
 
+    admin_notes = models.TextField(blank=True,null=True)
     ##this meta class is used to define additional properties for the model
     ##unique_together ensures that a user can only apply once for a specific internship
     ##ordering specifies the default ordering of the objects returned by the model
@@ -46,5 +48,5 @@ class Application(models.Model):
         return False
 
     def __str__(self):
-        return f"{self.user.username} → {self.internship.title} ({self.status})"
+        return f"{self.user.email} → {self.internship.title} ({self.status})"
 

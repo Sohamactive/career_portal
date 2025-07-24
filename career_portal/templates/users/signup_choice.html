@@ -2,161 +2,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Unisoft Corner</title>
-    <style>
-        :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #212529;
-            --muted-color: #6c757d;
-            --bg-color: #f8f9fa;
-            --white-color: #ffffff;
-            --border-color: #dee2e6;
-            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - Unisoft Corner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --secondary-color: #1f2937;
+      --muted-color: #6b7280;
+      --light-muted: #9ca3af;
+      --bg-color: #f9fafb;
+      --white-color: #ffffff;
+      --border-color: #e5e7eb;
+      --success-color: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
 
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .auth-container {
-            background-color: var(--white-color);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
+    body {
+      font-family: var(--font-family);
+      background: #ffffff;
+      color: var(--secondary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-        .auth-title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+    .auth-container {
+      background: var(--white-color);
+      padding: 3rem 2.5rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow-xl);
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      position: relative;
+      border: 1px solid var(--border-color);
+    }
 
-        .auth-subtitle {
-            color: var(--muted-color);
-            margin-bottom: 2rem;
-        }
+    .auth-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
 
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid var(--border-color);
-            background-color: var(--white-color);
-            color: var(--secondary-color);
-            transition: background-color 0.2s;
-        }
+    .auth-subtitle {
+      color: var(--muted-color);
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      font-weight: 400;
+    }
 
-        .social-btn:hover {
-            background-color: #f1f3f5;
-        }
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0.875rem 1.25rem;
+      margin-bottom: 0.75rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--border-color);
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      color: var(--secondary-color);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      line-height: 1.2;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .social-btn svg {
-            width: 20px;
-            height: 20px;
-            margin-right: 0.75rem;
-        }
+    .social-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.5s ease;
+    }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--muted-color);
-            margin: 1.5rem 0;
-        }
+    .social-btn:hover::before {
+      left: 100%;
+    }
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--border-color);
-        }
+    .social-btn:hover {
+      background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-color);
+    }
 
-        .divider:not(:empty)::before {
-            margin-right: .5em;
-        }
+    .social-btn:active {
+      transform: translateY(0);
+    }
 
-        .divider:not(:empty)::after {
-            margin-left: .5em;
-        }
-        
-        .email-btn {
-            display: block;
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid var(--primary-color);
-            background-color: var(--primary-color);
-            color: var(--white-color);
-            transition: background-color 0.2s;
-        }
+    .social-btn svg {
+      width: 22px;
+      height: 22px;
+      margin-right: 0.875rem;
+      vertical-align: middle;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
 
-        .email-btn:hover {
-            background-color: #0b5ed7;
-            border-color: #0b5ed7;
-        }
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: var(--light-muted);
+      margin: 2.5rem 0 2rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-        .login-link {
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--muted-color);
-        }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-color);
+    }
 
-        .login-link a {
-            color: var(--primary-color);
-            font-weight: 500;
-            text-decoration: none;
-        }
+    .divider:not(:empty)::before {
+      margin-right: 1rem;
+    }
 
-    </style>
+    .divider:not(:empty)::after {
+      margin-left: 1rem;
+    }
+
+    .email-btn {
+      display: block;
+      width: 100%;
+      padding: 0.875rem 1.25rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+      color: var(--white-color);
+      border: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .email-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .email-btn:hover::before {
+      opacity: 1;
+    }
+
+    .email-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .email-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .login-link {
+      margin-top: 2.5rem;
+      font-size: 0.95rem;
+      color: var(--muted-color);
+      font-weight: 400;
+    }
+
+    .login-link a {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .login-link a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+      transition: width 0.3s ease;
+    }
+
+    .login-link a:hover::after {
+      width: 100%;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+        border-radius: 16px;
+      }
+
+      .auth-title {
+        font-size: 1.875rem;
+      }
+
+      .auth-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .social-btn,
+      .email-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Animation for page load */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-container {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Focus styles for accessibility */
+    .social-btn:focus,
+    .email-btn:focus,
+    .login-link a:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  </style>
 </head>
 <body>
+  <div class="auth-container">
+    <h1 class="auth-title">Join Unisoft Corner</h1>
+    <p class="auth-subtitle">Create your profile to view and apply for internships that match your skills and interests.</p>
 
-    <div class="auth-container">
-        <h1 class="auth-title">Join Unisoft Corner</h1>
-        <p class="auth-subtitle">Create your profile to view and apply for internships.</p>
+    <a href="{% provider_login_url 'google' %}" class="social-btn">
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <title>Google</title>
+        <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.02 1.02-2.3 1.62-4.25 1.62-5.03 0-9.1-3.9-9.1-8.8s4.07-8.8 9.1-8.8c2.8 0 4.63.98 6.08 2.3l2.04-2.04C19.41 1.23 16.47 0 12.48 0 5.88 0 .52 5.36.52 12s5.36 12 11.96 12c3.12 0 5.56-1.1 7.4-2.94 1.9-1.9 2.54-4.86 2.54-8.28 0-.66-.07-1.32-.19-1.98z"/>
+      </svg>
+      Sign Up with Google
+    </a>
 
-        <a href="{% provider_login_url 'google'%}" class="social-btn">
-            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google</title><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.02 1.02-2.3 1.62-4.25 1.62-5.03 0-9.1-3.9-9.1-8.8s4.07-8.8 9.1-8.8c2.8 0 4.63.98 6.08 2.3l2.04-2.04C19.41 1.23 16.47 0 12.48 0 5.88 0 .52 5.36.52 12s5.36 12 11.96 12c3.12 0 5.56-1.1 7.4-2.94 1.9-1.9 2.54-4.86 2.54-8.28 0-.66-.07-1.32-.19-1.98z"/></svg>
-            Sign Up with Google
-        </a>
-        <a href="{% provider_login_url 'github' %}" class="social-btn">
-            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-            Sign Up with GitHub
-        </a>
+    <a href="{% provider_login_url 'github' %}" class="social-btn">
+      <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <title>GitHub</title>
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 
+        0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 
+        18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 
+        1.205.084 1.838 1.236 1.838 1.236 
+        1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 
+        0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 
+        0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 
+        1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23 
+        .645 1.653.24 2.873.12 3.176.765.84 
+        1.23 1.91 1.23 3.22 
+        0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 
+        2.22 0 1.606-.015 2.896-.015 3.286 
+        0 .315.21.69.825.57C20.565 22.092 
+        24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+      </svg>
+      Sign Up with GitHub
+    </a>
 
-        <div class="divider">OR</div>
+    <div class="divider">OR</div>
 
-        <a href="{% url "users:signup_email"%}" class="email-btn">
-            Sign Up with Email
-        </a>
+    <a href="{% url 'users:signup_email' %}" class="email-btn">
+      Sign Up with Email
+    </a>
 
-        <p class="login-link">
-            Already have an account? <a href="#">Log In</a>
-        </p>
-    </div>
-
+    <p class="login-link">
+      Already have an account? <a href="{% url 'account_login' %}">Log In</a>
+    </p>
+  </div>
 </body>
 </html>
-

@@ -5,72 +5,127 @@
 {% block content %}
 <style>
     .page-header {
-        background-color: var(--white-color);
-        padding: 3rem 1rem;
+        background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+        padding: 4rem 1rem;
         text-align: center;
         border-bottom: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
     }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, var(--primary-light) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: float 20s linear infinite;
+        z-index: 0;
+    }
+
+    .page-header .container {
+        position: relative;
+        z-index: 2;
+    }
+
     .page-header h1 {
-        font-size: 2.5rem;
+        font-size: 2.75rem;
         font-weight: 700;
+        margin-bottom: 1rem;
+        animation: fadeInUp 1s ease-out;
     }
+
     .page-header p {
         font-size: 1.1rem;
-        color: var(--muted-color);
-        margin-top: 0.5rem;
+        color: var(--text-muted);
         max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 0 auto;
+        animation: fadeInUp 1s ease-out 0.2s both;
     }
+
     .listing-container {
         padding: 3rem 0;
     }
+
     .internship-card {
-        background-color: var(--white-color);
+        background-color: var(--bg-primary);
         border: 1px solid var(--border-color);
         border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        padding: 1.75rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
         text-decoration: none;
         display: block;
         color: inherit;
+        animation: fadeInUp 0.8s ease-out;
+        position: relative;
+        overflow: hidden;
     }
+
     .internship-card:hover {
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        transform: translateY(-5px);
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
     }
+
+    .internship-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .internship-card:hover::before {
+        transform: scaleX(1);
+    }
+
     .card-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 1rem;
     }
+
     .card-title {
         font-size: 1.5rem;
         font-weight: 600;
         color: var(--primary-color);
     }
+
     .card-location {
         font-size: 0.9rem;
-        color: var(--muted-color);
+        color: var(--text-muted);
         font-weight: 500;
     }
+
     .card-description {
-        color: var(--secondary-color);
-        margin-bottom: 1.5rem;
+        color: var(--text-color);
+        margin-bottom: 1.25rem;
     }
+
     .card-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-size: 0.9rem;
-        color: var(--muted-color);
+        color: var(--text-muted);
+        flex-wrap: wrap;
+        gap: 0.5rem;
     }
+
     .badge-paid {
-        background-color: #d1e7dd;
-        color: #0f5132;
-        padding: 0.3rem 0.6rem;
+        background-color: var(--primary-light);
+        color: var(--primary-hover);
+        padding: 0.4rem 0.8rem;
         border-radius: 12px;
         font-weight: 500;
         font-size: 0.8rem;
@@ -86,30 +141,43 @@
 
 <div class="listing-container">
     <div class="container">
-
-        <!-- This is where we will eventually loop through the internships -->
-        <!-- For now, here are two static example cards -->
         {% for internship in internships %}
-        <a href="{% url "internships:internship_detail" int_id=internship.id%}" class="internship-card">
+        <a href="{% url "internships:internship_detail" int_id=internship.id %}" class="internship-card animate-on-scroll">
             <div class="card-header">
                 <div>
-                    <h2 class="card-title">{{internship.title}}</h2>
-                    <p class="card-location">{{internship.location}}</p>
+                    <h2 class="card-title">{{ internship.title }}</h2>
+                    <p class="card-location">{{ internship.location }}</p>
                 </div>
-                <span class="badge-paid">{{internship.type}}</span>
+                <span class="badge-paid">{{ internship.type }}</span>
             </div>
-            <p class="card-description">
-                {{internship.description}}
-            </p>
+            <p class="card-description">{{ internship.description }}</p>
             <div class="card-footer">
-                <span><strong>Duration:</strong>{{internship.duration}}</span>
-                <span><strong>Deadline:</strong>{{internship.application_deadline}}</span>
+                <span><strong>Duration:</strong> {{ internship.duration }}</span>
+                <span><strong>Deadline:</strong> {{ internship.application_deadline }}</span>
             </div>
         </a>
         {% endfor %}
-
-
-        
     </div>
 </div>
+
+<script>
+    // Apply animation on scroll (reuse from index.html)
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
 {% endblock %}
+

@@ -1,13 +1,13 @@
 from django.contrib import admin
 from .models import *
-# from applications.models import Application
+from applications.models import Application
 # Register your models here.
 
-# class ApplicationInline(admin.TabularInline):  # or admin.StackedInline
-#     model = Application
-#     extra = 1  # How many empty forms to show
-#     fields = ('user', 'resume', 'status')  # Customize as needed
-#     readonly_fields = ()  # Optional
+class ApplicationInline(admin.TabularInline):  # or admin.StackedInline
+    model = Application
+    extra = 1  # How many empty forms to show
+    fields = ('user', 'resume', 'status','admin_notes')  # Customize as needed
+    readonly_fields = ()  # Optional
 
 
 @admin.register(Skill)
@@ -68,4 +68,4 @@ class InternshipAdmin(admin.ModelAdmin):
         }),
     )
     ordering = ('-created_at',)
-    # inlines = [ApplicationInline,]
+    inlines = [ApplicationInline,]

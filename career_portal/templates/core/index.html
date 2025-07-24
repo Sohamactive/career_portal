@@ -5,43 +5,162 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Careers at Unisoft Corner</title>
     <style>
-        /* A simple CSS Reset */
+        /* CSS Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Define brand colors and fonts */
+        /* Design System Variables */
         :root {
-            --primary-color: #0d6efd; /* A professional blue */
-            --primary-hover: #0b5ed7;
-            --secondary-color: #212529; /* Dark text for high contrast */
-            --muted-color: #6c757d;   /* Lighter gray for subtext */
-            --bg-color: #ffffff;      /* Clean white background */
-            --light-bg: #f8f9fa;      /* A very light gray for sections */
-            --border-color: #dee2e6;
-            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --primary-color: #007acc;
+            --primary-hover: #005c99;
+            --primary-light: #e6f3ff;
+            --secondary-color: #1a1a1a;
+            --text-color: #2b2b2b;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-accent: #f1f5f9;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Intersection Observer Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-on-scroll.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll.delay-1 { transition-delay: 0.1s; }
+        .animate-on-scroll.delay-2 { transition-delay: 0.2s; }
+        .animate-on-scroll.delay-3 { transition-delay: 0.3s; }
+        .animate-on-scroll.delay-4 { transition-delay: 0.4s; }
+        .animate-on-scroll.delay-5 { transition-delay: 0.5s; }
+        .animate-on-scroll.delay-6 { transition-delay: 0.6s; }
 
         body {
             font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--secondary-color);
+            background-color: var(--bg-primary);
+            color: var(--text-color);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* --- Header / Navbar --- */
+        /* Header */
         .header {
-            background-color: var(--bg-color);
+            background-color: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid var(--border-color);
             padding: 1.25rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            animation: slideInFromTop 0.8s ease-out;
         }
 
         .navbar {
@@ -55,79 +174,216 @@
             font-weight: 600;
             color: var(--secondary-color);
             text-decoration: none;
+            letter-spacing: -0.025em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
         
         .logo span {
             color: var(--primary-color);
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
         .nav-links a {
-            color: var(--muted-color);
+            color: var(--text-muted);
             text-decoration: none;
             margin-left: 1.5rem;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
         }
 
         .nav-links a:hover {
             color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-button {
             background-color: var(--primary-color);
-            color: var(--bg-color);
-            padding: 0.6rem 1.2rem;
+            color: var(--bg-primary) !important;
+            padding: 0.6rem 1.2rem !important;
             border-radius: 8px;
             font-weight: 500;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-left: 1.5rem !important;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
         }
 
         .nav-button:hover {
             background-color: var(--primary-hover);
-            color: var(--bg-color); /* Ensure text color remains white on hover */
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
+        .nav-button:hover::before {
+            width: 100px;
+            height: 100px;
+        }
 
-        /* --- Hero Section --- */
+        .nav-button:hover::after {
+            width: 0;
+        }
+
+        /* Hero Section */
         .hero {
+            padding: 8rem 0 6rem;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23007acc' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-content {
             text-align: center;
-            padding: 6rem 1rem;
+            position: relative;
+            z-index: 2;
         }
 
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
+            color: var(--secondary-color);
+            letter-spacing: -0.02em;
+            animation: fadeInUp 1s ease-out;
         }
 
         .hero p {
             font-size: 1.15rem;
-            color: var(--muted-color);
+            color: var(--text-muted);
             max-width: 700px;
             margin: 0 auto 2.5rem auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         .hero .cta-button {
             display: inline-block;
             background-color: var(--primary-color);
-            color: var(--bg-color);
+            color: var(--bg-primary);
             padding: 0.9rem 2.2rem;
             border-radius: 8px;
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 500;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .hero .cta-button:hover {
             background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* --- Features Section --- */
+        .hero .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 0;
+            background-color: var(--bg-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            animation: scaleIn 0.8s ease-out;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            counter-reset: stat-counter;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+        }
+
+        /* Benefits Section */
         .benefits {
             padding: 5rem 0;
-            background-color: var(--light-bg);
+            background-color: var(--bg-secondary);
         }
 
         .section-title {
@@ -135,12 +391,15 @@
             font-size: 2.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out;
         }
+
         .section-subtitle {
             text-align: center;
-            color: var(--muted-color);
+            color: var(--text-muted);
             font-size: 1.1rem;
             margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         .benefits-grid {
@@ -150,53 +409,292 @@
         }
 
         .benefit-card {
-            background-color: var(--bg-color);
+            background-color: var(--bg-primary);
             padding: 2.5rem;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             text-align: left;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .benefit-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .benefit-card:hover::after {
+            opacity: 1;
+            bottom: -25px;
+            right: -25px;
         }
 
         .benefit-card h3 {
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .benefit-card:hover h3 {
+            color: var(--primary-color);
         }
 
         .benefit-card p {
-            color: var(--muted-color);
+            color: var(--text-muted);
             font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        /* --- Footer --- */
+        /* Process Section */
+        .process {
+            padding: 5rem 0;
+            background-color: var(--bg-primary);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            padding: 2rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .process-step:hover .step-number {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        .process-step:hover .step-number::before {
+            width: 80px;
+            height: 80px;
+        }
+
+        .process-step h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .process-step p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Footer */
         .footer {
             text-align: center;
             padding: 3rem 0;
-            background-color: var(--bg-color);
+            background-color: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
-            color: var(--muted-color);
+            color: var(--text-muted);
         }
 
-        /* --- Responsive Design --- */
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            animation: none;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .benefits-grid,
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-card {
+                padding: 2rem;
+            }
+
+            .fab {
+                bottom: 1rem;
+                right: 1rem;
             }
         }
+
+        /* Background Animations */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--primary-light) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s linear infinite;
+        }
+
+        /* Loading Animation for Dynamic Content */
+        @keyframes shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 400% 100%;
+            animation: shimmer 1.5s infinite;
+        }   
     </style>
+    
 </head>
 <body>
-
-    {% include 'core/nav.html' %}
+    <header class="header">
+        {% include 'core/nav.html'%}
+    </header>
 
     <main>
         <section class="hero">
+            <div class="bg-animation"></div>
             <div class="container">
                 <h1>Shape the Future of Software</h1>
                 <p>
                     Join Unisoft Corner and contribute to innovative projects that make a difference. We are looking for passionate and driven students to join our team and grow with us.
                 </p>
-                <a href="{% url "internships:internship_listing"%}" class="cta-button">View Open Roles</a>
+                <a href="{% url 'internships:internship_listing' %}" class="cta-button">View Open Roles</a>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item animate-on-scroll">
+                        <h3>50+</h3>
+                        <p>Projects Delivered</p>
+                    </div>
+                    <div class="stat-item animate-on-scroll delay-1">
+                        <h3>95%</h3>
+                        <p>Intern Satisfaction</p>
+                    </div>
+                    <div class="stat-item animate-on-scroll delay-2">
+                        <h3>24/7</h3>
+                        <p>Mentorship Support</p>
+                    </div>
+                    <div class="stat-item animate-on-scroll delay-3">
+                        <h3>100%</h3>
+                        <p>Remote Friendly</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -205,17 +703,58 @@
                 <h2 class="section-title">Why Intern at Unisoft Corner?</h2>
                 <p class="section-subtitle">We invest in our interns' growth and success.</p>
                 <div class="benefits-grid">
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll">
                         <h3>Real-World Impact</h3>
                         <p>Work on live projects that are used by real clients. Your code and ideas will have a direct impact on our business and our customers' success.</p>
                     </div>
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll delay-1">
                         <h3>Mentorship & Learning</h3>
                         <p>Receive one-on-one guidance from experienced engineers and leaders. We're committed to your professional development through workshops and hands-on training.</p>
                     </div>
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll delay-2">
                         <h3>Collaborative Culture</h3>
                         <p>Become part of a supportive and inclusive team. We value open communication and teamwork to solve complex challenges together.</p>
+                    </div>
+                    <div class="benefit-card animate-on-scroll delay-3">
+                        <h3>Cutting-Edge Technology</h3>
+                        <p>Work with the latest tools and frameworks. From cloud platforms to AI/ML systems, gain hands-on experience with industry-leading technologies.</p>
+                    </div>
+                    <div class="benefit-card animate-on-scroll delay-4">
+                        <h3>Professional Growth</h3>
+                        <p>Access to workshops, conferences, and certification programs. We invest in your development with clear paths for career advancement.</p>
+                    </div>
+                    <div class="benefit-card animate-on-scroll delay-5">
+                        <h3>Flexible Environment</h3>
+                        <p>Remote-first culture with flexible hours. We focus on results and respect work-life balance to help you perform at your best.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Our Application Process</h2>
+                <p class="section-subtitle animate-on-scroll">A straightforward, transparent process designed to help us get to know you.</p>
+                <div class="process-steps">
+                    <div class="process-step animate-on-scroll">
+                        <div class="step-number">1</div>
+                        <h3>Apply Online</h3>
+                        <p>Submit your application with portfolio and cover letter explaining your interest in joining our innovative team.</p>
+                    </div>
+                    <div class="process-step animate-on-scroll delay-1">
+                        <div class="step-number">2</div>
+                        <h3>Initial Review</h3>
+                        <p>Our team reviews applications within 3-5 business days and provides constructive feedback to every candidate.</p>
+                    </div>
+                    <div class="process-step animate-on-scroll delay-2">
+                        <div class="step-number">3</div>
+                        <h3>Technical Interview</h3>
+                        <p>Collaborative coding session focused on problem-solving approach and technical thinking rather than memorization.</p>
+                    </div>
+                    <div class="process-step animate-on-scroll delay-3">
+                        <div class="step-number">4</div>
+                        <h3>Team Meeting</h3>
+                        <p>Meet potential teammates and discuss career goals, ensuring mutual fit for long-term success and growth.</p>
                     </div>
                 </div>
             </div>
@@ -224,9 +763,117 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Unisoft Corner. All Rights Reserved.</p>
+            <p>&copy; 2025 <a href = "https://unisoftcorner.com/" target="_blank" rel="noopener noreferrer">Unisoft Corner</a>. All Rights Reserved.</p>
         </div>
     </footer>
 
+    <!-- Floating Action Button -->
+    <a href="{% url 'internships:internship_listing' %}" class="fab" title="Apply Now">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            animateElements.forEach(el => observer.observe(el));
+
+            // Counter animation for stats
+            const statNumbers = document.querySelectorAll('.stat-item h3');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target + (stat.textContent.includes('%') ? '%' : '+');
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current) + (stat.textContent.includes('%') ? '%' : '+');
+                    }
+                }, 20);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('.cta-button, .nav-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.backgroundColor = 'rgba(255,255,255,0.3)';
+                    ripple.style.pointerEvents = 'none';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Parallax effect for hero background
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const bg = document.querySelector('.hero::before');
+                if (bg) {
+                    const rate = scrolled * -0.5;
+                    bg.style.transform = `translateY(${rate}px)`;
+                }
+            });
+        });
+
+        // Add loading states for dynamic content
+        function showLoadingState(element) {
+            element.classList.add('loading-shimmer');
+        }
+
+        function hideLoadingState(element) {
+            element.classList.remove('loading-shimmer');
+        }
+
+        // Preload critical images and fonts
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
 </body>
-</html>
