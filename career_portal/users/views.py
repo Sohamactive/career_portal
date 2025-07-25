@@ -108,7 +108,21 @@ def set_password_view(request):
     return render(request, 'users/set_password.html', {'form': form})
 
 def social_dob_view(request):
-    return render(request, 'users/social_dob.html')
+    if not request.user.is_authenticated:
+        return redirect('users:login')
+
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            profile.is_profile_complete = True
+            form.save()
+            return redirect('core:home')  # or 'internships/'
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'users/social_dob.html', {'form': form})
 
 def complete_profile_view(request):
     # Redirect if user is not logged in

@@ -141,8 +141,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''  # your gmail
-EMAIL_HOST_PASSWORD = ''  # app password
+EMAIL_HOST_USER = 'testing142701@gmail.com'  # your gmail
+EMAIL_HOST_PASSWORD = 'sgzm mrhs fpfc qpcg'  # app password
 
 # INTERNAL_IPS = [
 #     "127.0.0.1",
@@ -164,9 +164,31 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 SITE_ID = 1
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = False
 LOGIN_REDIRECT_URL = '/internships/'  # Redirect to homepage after login
-ACCOUNT_LOGOUT_ON_GET = True # Logout without a confirmation page
+ACCOUNT_LOGOUT_ON_GET = False # Logout with a confirmation page
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/account/signup/social_dob/'
+SOCIALACCOUNT_ADAPTER = 'users.adapters.CustomSocialAccountAdapter'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
+    'github': {
+        'SCOPE': [
+            'user:email',
+        ],
+    }
+}
