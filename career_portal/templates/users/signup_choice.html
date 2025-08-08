@@ -1,4 +1,3 @@
-{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -284,7 +283,11 @@
     <h1 class="auth-title">Join Unisoft Corner</h1>
     <p class="auth-subtitle">Create your profile to view and apply for internships that match your skills and interests.</p>
 
-    <a href="{% provider_login_url 'google' %}" class="social-btn">
+    <!-- 
+        CHANGE: The href now points to the single 'users:login' URL.
+        This URL starts the Auth0 flow, which handles Google, GitHub, and Email signups.
+    -->
+    <a href="{% url 'users:social_login' %}" class="social-btn">
       <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <title>Google</title>
         <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.02 1.02-2.3 1.62-4.25 1.62-5.03 0-9.1-3.9-9.1-8.8s4.07-8.8 9.1-8.8c2.8 0 4.63.98 6.08 2.3l2.04-2.04C19.41 1.23 16.47 0 12.48 0 5.88 0 .52 5.36.52 12s5.36 12 11.96 12c3.12 0 5.56-1.1 7.4-2.94 1.9-1.9 2.54-4.86 2.54-8.28 0-.66-.07-1.32-.19-1.98z"/>
@@ -292,7 +295,10 @@
       Sign Up with Google
     </a>
 
-    <a href="{% provider_login_url 'github' %}" class="social-btn">
+    <!-- 
+        CHANGE: The href now points to the single 'users:login' URL.
+    -->
+    <a href="{% url 'users:social_login' %}" class="social-btn">
       <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <title>GitHub</title>
         <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 
@@ -315,6 +321,9 @@
 
     <div class="divider">OR</div>
 
+    <!-- 
+        CHANGE: The href now points to the single 'users:login' URL.
+    -->
     <a href="{% url 'users:signup_email' %}" class="email-btn">
       Sign Up with Email
     </a>

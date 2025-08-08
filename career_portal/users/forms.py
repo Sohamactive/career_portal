@@ -115,3 +115,6 @@ class CertificateForm(forms.ModelForm):
     class Meta:
         model = Certificate
         fields = ['title', 'file']
+
+class SocialDOBForm(forms.Form):
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))

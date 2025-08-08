@@ -1,23 +1,19 @@
+# career_portal/settings.py
+
 from pathlib import Path
 import os
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
+
+# --- Basic Django Setup ---
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()  # Load environment variables from .env file
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-=%u^y5f0831c!!-=_c!q1dm0ifhz-vh*=0c&d^p5d+8))axi5#'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
+# --- Application Definition ---
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -26,31 +22,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+    # 'django.contrib.sites', # This is often related to allauth, can be removed if not used elsewhere.
     'users',
     'internships',
     'applications',
     'core',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
-    
 ]
-# TAILWIND_APP_NAME = 'theme
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django.contrib.auth.backends.ModelBackend',
-    # 'allauth.account.auth_backends.AuthenticationBackend',
-    # 'allauth.account.middleware.AccountMiddleware',
+    # REMOVED: 'allauth.account.middleware.AccountMiddleware', # This was causing the error
 ]
 
 ROOT_URLCONF = 'career_portal.urls'
@@ -58,7 +45,7 @@ ROOT_URLCONF = 'career_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,9 +60,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'career_portal.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# --- Database ---
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,111 +69,59 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# --- Password Validation ---
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
+# --- Internationalization ---
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# --- Static and Media Files ---
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-# Media files (User-uploaded content)
-# https://docs.djangoproject.com/en/5.2/topics/files/
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
+# --- Other Settings ---
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# email configurations
+# --- Email Configuration ---
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'testing142701@gmail.com'  # your gmail
-EMAIL_HOST_PASSWORD = 'sgzm mrhs fpfc qpcg'  # app password
-
-# INTERNAL_IPS = [
-#     "127.0.0.1",
-# ]
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Or 'optional'
-# ACCOUNT_EMAIL_REQUIRED = True
-# LOGIN_REDIRECT_URL = '/internships/' # Where to send users after login
-# ACCOUNT_LOGOUT_ON_GET = True
+EMAIL_HOST_USER = 'testing142701@gmail.com'
+EMAIL_HOST_PASSWORD = 'sgzm mrhs fpfc qpcg'
 
 
+# ==============================================================================
+#   AUTHENTICATION CONFIGURATION
+# ==============================================================================
 
-AUTH_USER_MODEL = 'users.User'  # Use the custom user model
+# --- Custom User Model ---
+AUTH_USER_MODEL = 'users.User'
+
+# --- NEW Auth0 Configuration ---
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
+AUTH0_CLIENT_ID = os.getenv("AUTH0_CLIENT_ID")
+AUTH0_CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET")
 
 AUTHENTICATION_BACKENDS = [
-    # Needed to log in by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'users.auth0_backend.Auth0Backend',
 ]
-SITE_ID = 1
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_USERNAME_REQUIRED = False
-LOGIN_REDIRECT_URL = '/internships/'  # Redirect to homepage after login
-ACCOUNT_LOGOUT_ON_GET = False # Logout with a confirmation page
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_SIGNUP_REDIRECT_URL = '/account/signup/social_dob/'
-SOCIALACCOUNT_ADAPTER = 'users.adapters.CustomSocialAccountAdapter'
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'OAUTH_PKCE_ENABLED': True,
-    },
-    'github': {
-        'SCOPE': [
-            'user:email',
-        ],
-    }
-}
+# --- REMOVED all old 'django-allauth' settings ---
+# SITE_ID, ACCOUNT_*, SOCIALACCOUNT_* settings have been removed as they are no longer needed.
+LOGIN_URL = 'users:login'
