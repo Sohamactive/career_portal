@@ -2,6 +2,41 @@
 
 A comprehensive Django-based web application for managing internship opportunities and applications. This platform connects students with organizations offering internships, providing a streamlined application process and management system.
 
+## Table of Contents
+
+- [Features](#features)
+  - [For Students](#for-students)
+  - [For Administrators](#for-administrators)
+  - [Application Statuses](#application-statuses)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Installation & Setup](#installation--setup)
+  - [Prerequisites](#prerequisites)
+  - [Step 1: Clone the Repository](#step-1-clone-the-repository)
+  - [Step 2: Create Virtual Environment](#step-2-create-virtual-environment)
+  - [Step 3: Activate Virtual Environment](#step-3-activate-virtual-environment)
+  - [Step 4: Install Dependencies](#step-4-install-dependencies)
+  - [Step 5: Environment Configuration](#step-5-environment-configuration)
+  - [Step 6: Database Setup](#step-6-database-setup)
+  - [Step 7: Create Superuser](#step-7-create-superuser)
+  - [Step 8: Run Development Server](#step-8-run-development-server)
+- [Usage](#usage)
+  - [For Students](#for-students-1)
+  - [For Administrators](#for-administrators-1)
+- [Key Models](#key-models)
+  - [User Model](#user-model)
+  - [Internship Model](#internship-model)
+  - [Application Model](#application-model)
+- [Configuration](#configuration)
+  - [Database](#database)
+  - [File Uploads](#file-uploads)
+  - [Static Files](#static-files)
+- [Contributing](#contributing)
+- [Security Considerations](#security-considerations)
+- [Future Enhancements](#future-enhancements)
+- [Support](#support)
+- [License](#license)
+
 ## Features
 
 ### For Students
