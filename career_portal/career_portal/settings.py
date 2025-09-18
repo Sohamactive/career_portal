@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()  # Load environment variables from .env file
 
-SECRET_KEY = 'django-insecure-=%u^y5f0831c!!-=_c!q1dm0ifhz-vh*=0c&d^p5d+8))axi5#'
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = []
 
 
@@ -101,8 +101,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'testing142701@gmail.com'
-EMAIL_HOST_PASSWORD = 'sgzm mrhs fpfc qpcg'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
 # ==============================================================================
