@@ -1,8 +1,16 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 from internships.models import Internship
 from datetime import timedelta
+
+def validate_resume_size(value):
+    """Limit resume file size to 5MB"""
+    filesize = value.size
+    if filesize > 5242880:  # 5MB in bytes
+        raise ValidationError("Maximum file size is 5MB")
 
 class Application(models.Model):
     STATUS_CHOICES = (
@@ -23,7 +31,13 @@ class Application(models.Model):
     internship = models.ForeignKey(Internship, on_delete=models.CASCADE)
     
     sop = models.TextField(blank=True, null=True)
-    resume = models.FileField(upload_to='resumes/')
+    resume = models.FileField(
+        upload_to='resumes/',
+        validators=[
+            FileExtensionValidator(['pdf', 'doc', 'docx']),
+            validate_resume_size
+        ]
+    )
 
     applied_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

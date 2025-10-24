@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 
 # --- Custom User Model Setup ---
 
@@ -46,6 +48,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 # --- Your Profile and Certificate Models ---
 
+# File size validator
+def validate_file_size(value):
+    """Limit file size to 5MB"""
+    filesize = value.size
+    if filesize > 5242880:  # 5MB in bytes
+        raise ValidationError("Maximum file size is 5MB")
+
 # These upload functions are great! Let's adapt them slightly.
 def upload_to_cert(instance, filename):
     return f'certificates/user_{instance.user_profile.user.id}/{filename}'
@@ -61,8 +70,24 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     full_name = models.CharField(max_length=255, blank=True)
     dob = models.DateField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to=upload_to_profile_pic, blank=True, null=True)
-    resume = models.FileField(upload_to=upload_to_resume, blank=True, null=True)
+    profile_picture = models.ImageField(
+        upload_to=upload_to_profile_pic,
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(['jpg', 'jpeg', 'png', 'gif']),
+            validate_file_size
+        ]
+    )
+    resume = models.FileField(
+        upload_to=upload_to_resume,
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(['pdf', 'doc', 'docx']),
+            validate_file_size
+        ]
+    )
     bio = models.TextField(blank=True, null=True)
     linkedin_url = models.URLField(blank=True)
     github_url = models.URLField(blank=True, null=True)
@@ -76,7 +101,13 @@ class UserProfile(models.Model):
 
 class Certificate(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='certificates')
-    file = models.FileField(upload_to=upload_to_cert)
+    file = models.FileField(
+        upload_to=upload_to_cert,
+        validators=[
+            FileExtensionValidator(['pdf', 'jpg', 'jpeg', 'png']),
+            validate_file_size
+        ]
+    )
     title = models.CharField(max_length=255, blank=True)
     position = models.PositiveIntegerField(default=0)
     uploaded_at = models.DateTimeField(auto_now_add=True)

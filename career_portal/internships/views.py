@@ -11,6 +11,7 @@ def internship_listing_view(request):
     }
     return render(request,"internships/internship_listing.html",context)
 
+@login_required
 def internship_detail_view(request,int_id):
     internship = get_object_or_404(Internship,id = int_id )
     sentences = [s.strip() for s in internship.requirements.split('.') if s.strip()]
